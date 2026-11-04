@@ -28,11 +28,14 @@ This project demonstrates the application of data analytics and machine learning
 
 ## Project Visualizations
 
-### 1. Class Distribution
-![Class Distribution](./class_distribution.png)
+### 1. Original Class Distribution
+![Original Class Distribution](./visuals/class_distribution.png)
 
-### 2. Confusion Matrix
-![Confusion Matrix](./confusion_matrix.png)
+### 2. Class Distribution After SMOTE
+![Class Distribution After SMOTE](./visuals/smote_distribution.png)
 
-### 3. Feature Importance
-![Feature Importance](./feature_importance.png)
+### 3. Confusion Matrix
+![Confusion Matrix](./visuals/confusion_matrix.png)
+
+### 4. Feature Importance
+![Feature Importance](./visuals/feature_importance.png)
