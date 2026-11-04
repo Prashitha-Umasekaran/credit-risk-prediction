@@ -25,3 +25,14 @@ Credit risk prediction can help financial institutions:
 
 ## Project Repository
 This project demonstrates the application of data analytics and machine learning to a practical financial risk management problem.
+
+## Project Visualizations
+
+### 1. Class Distribution
+![Class Distribution](./class_distribution.png)
+
+### 2. Confusion Matrix
+![Confusion Matrix](./confusion_matrix.png)
+
+### 3. Feature Importance
+![Feature Importance](./feature_importance.png)
