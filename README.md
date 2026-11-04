@@ -27,11 +27,6 @@ The project uses the following Python libraries:
 - matplotlib
 - seaborn
 
-Install the dependencies using:
-
-```bash
-pip install pandas numpy scikit-learn imbalanced-learn matplotlib seaborn
-
 ## Business Relevance
 
 This project demonstrates how data analytics can support financial risk management and lending decisions.
