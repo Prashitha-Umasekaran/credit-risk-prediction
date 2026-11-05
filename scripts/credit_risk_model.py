@@ -37,6 +37,9 @@ print("\n===== DATA LOADED =====")
 print(df.shape)
 print(df.head())
 
+print("Target values:", df["Delinquent_Account"].unique())
+print(df["Delinquent_Account"].value_counts(dropna=False))
+
 # =========================
 # 3. MISSING VALUES HANDLING
 # =========================
