@@ -1,5 +1,5 @@
 # =========================
-# CREDIT RISK MODEL - PRODUCTION READY
+# CREDIT RISK MODEL - EXPERIMENTAL ANALYSIS
 # =========================
 
 import os
