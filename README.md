@@ -70,11 +70,11 @@ These results provide insights into model behaviour and demonstrate how predicti
 
 The dataset was divided into training (80%) and testing (20%) sets. Logistic Regression and Random Forest were evaluated against a baseline model. SMOTE was applied within the training pipelines to address class imbalance.
 
-| Model | Accuracy | Balanced Accuracy | Delinquent Recall |
-|---|---:|---:|---:|
-| Baseline Model | 84% | 50.00% | 0% |
-| Logistic Regression | 74% | 54.17% | 25% |
-| Random Forest | 84% | 50.00% | 0% |
+| Model | Accuracy | Balanced Accuracy | Delinquent Precision | Delinquent Recall | Delinquent F1-score |
+|---|---:|---:|---:|---:|---:|
+| Baseline Model | 84% | 50.00% | 0% | 0% | 0% |
+| Logistic Regression | 74% | 54.17% | 22.22% | 25% | 23.53% |
+| Random Forest | 84% | 50.00% | 0% | 0% | 0% |
 
 **Key Findings:**
 
