@@ -61,17 +61,22 @@ These results provide insights into model behaviour and demonstrate how predicti
 
 ### Independent Python Model Performance
 
-The independent Python analysis produced the following results:
+The dataset was divided into training (80%) and testing (20%) sets. Logistic Regression and Random Forest were evaluated against a baseline model. SMOTE was applied within the training pipelines to address class imbalance.
 
 | Model | Accuracy | Balanced Accuracy | Delinquent Recall |
 |---|---:|---:|---:|
-| Baseline Model | 84% | — | 0% |
-| Logistic Regression | 52% | 43.6% | 31.25% |
-| Random Forest | 83% | 49.4% | 0% |
+| Baseline Model | 84% | 50.00% | 0% |
+| Logistic Regression | 74% | 54.17% | 25% |
+| Random Forest | 84% | 50.00% | 0% |
 
-**Key Finding:** Although the baseline and Random Forest models achieved higher overall accuracy, they failed to identify delinquent borrowers in the test set. Logistic Regression identified some delinquent cases but showed limited overall performance.
+**Key Findings:**
 
-These results highlight the challenges of class imbalance and the importance of evaluating recall and balanced accuracy rather than relying on accuracy alone.
+- The baseline model and Random Forest achieved 84% accuracy but failed to identify delinquent borrowers.
+- Logistic Regression performed better in detecting delinquency, identifying 25% of actual delinquent accounts.
+- Logistic Regression achieved the highest balanced accuracy (54.17%) among the evaluated models.
+- Overall predictive performance remains limited, highlighting the challenges of class imbalance and the need for further model improvement.
+
+**Important:** Accuracy alone is not sufficient to evaluate credit-risk models. Delinquent recall and balanced accuracy provide additional insight into their ability to identify borrowers at risk.
 
 ## Limitations & Future Improvements
 
