@@ -20,7 +20,7 @@ from imblearn.over_sampling import SMOTE
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DATA_PATH = os.path.join(BASE_DIR, "Data", "Delinquency_prediction_dataset.xlsx")
+DATA_PATH = os.path.join(BASE_DIR, "data", "Delinquency_prediction_dataset.xlsx")
 OUTPUT_DIR = os.path.join(BASE_DIR, "Output", "Reports")
 VISUAL_DIR = os.path.join(BASE_DIR, "Visuals")
 
