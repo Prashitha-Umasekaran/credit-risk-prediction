@@ -34,7 +34,14 @@ The project uses the following Python libraries:
 - scikit-learn
 - imbalanced-learn
 - matplotlib
-- seaborn
+- openpyxl
+- joblib
+
+Install the dependencies using:
+
+```bash
+pip install -r requirements.txt
+```
 
 ## Business Relevance
 
