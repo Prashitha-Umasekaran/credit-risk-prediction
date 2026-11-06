@@ -6,7 +6,7 @@ This project explores credit risk assessment by analysing borrower-related data 
 ## Objectives
 - Understand key factors associated with credit risk.
 - Analyse borrower information to identify risk patterns.
-- Build a machine learning model to predict loan default risk.
+- Explore machine learning classification models to analyse loan delinquency patterns and evaluate their predictive performance.
 - Understand how predictive insights can support lending decisions.
 
 ## Tools & Technologies
