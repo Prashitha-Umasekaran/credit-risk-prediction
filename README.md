@@ -3,6 +3,15 @@
 ## Project Overview
 This project explores credit risk assessment by analysing borrower-related data and identifying patterns associated with potential loan defaults.
 
+## Project Scope
+
+This portfolio project combines two related activities:
+
+- **Forage Job Simulation:** Completed the Tata iQ GenAI Powered Data Analytics Job Simulation, working on exploratory data analysis, identifying delinquency patterns, and preparing business recommendations for a fictional financial services company.
+- **Independent Python Analysis:** Conducted additional data preprocessing, class-imbalance analysis, and machine learning experiments using Logistic Regression and Random Forest to evaluate loan delinquency prediction.
+
+The Python modelling results are independent analysis and should not be confused with the findings or deliverables of the Forage simulation.
+
 ## Objectives
 - Understand key factors associated with credit risk.
 - Analyse borrower information to identify risk patterns.
