@@ -45,6 +45,7 @@ The project uses the following Python libraries:
 - matplotlib
 - openpyxl
 - joblib
+- seaborn
 
 Install the dependencies using:
 
