@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from sklearn.base import clone
 from sklearn.model_selection import train_test_split
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline as SklearnPipeline
@@ -58,9 +59,7 @@ os.makedirs(MODEL_DIR, exist_ok=True)
 # ============================================================
 
 if not os.path.exists(DATA_PATH):
-    raise FileNotFoundError(
-        f"Dataset not found: {DATA_PATH}"
-    )
+    raise FileNotFoundError(f"Dataset not found: {DATA_PATH}")
 
 df = pd.read_excel(DATA_PATH)
 
@@ -68,7 +67,7 @@ target_col = "Delinquent_Account"
 
 if target_col not in df.columns:
     raise ValueError(
-        f"Target column '{target_col}' was not found in the dataset."
+        f"Target column '{target_col}' was not found."
     )
 
 df = df.dropna(subset=[target_col]).copy()
@@ -83,7 +82,7 @@ print(df[target_col].value_counts())
 # 3. PREPARE TARGET
 # ============================================================
 
-target_values = list(pd.Series(df[target_col].unique()).dropna())
+target_values = list(df[target_col].unique())
 
 if len(target_values) != 2:
     raise ValueError(
@@ -114,8 +113,9 @@ else:
             "Please check the target values."
         )
 
-    positive_value = positive_values[0]
-    y = (df[target_col] == positive_value).astype(int)
+    y = (
+        df[target_col] == positive_values[0]
+    ).astype(int)
 
 X = df.drop(columns=[target_col])
 
@@ -141,7 +141,7 @@ print("Testing records:", len(X_test))
 
 
 # ============================================================
-# 5. PREPROCESSING
+# 5. PREPROCESSING DEFINITION
 # ============================================================
 
 numeric_features = X_train.select_dtypes(
@@ -171,7 +171,7 @@ preprocessor = ColumnTransformer(
 
 
 # ============================================================
-# 6. CLASS DISTRIBUTION
+# 6. ORIGINAL CLASS DISTRIBUTION
 # ============================================================
 
 plt.figure(figsize=(7, 5))
@@ -187,20 +187,21 @@ plt.ylabel("Number of Records")
 plt.tight_layout()
 
 plt.savefig(
-    os.path.join(VISUAL_DIR, "class_distribution.png")
+    os.path.join(VISUAL_DIR, "class_distribution.png"),
+    dpi=300
 )
 plt.close()
 
 
 # ============================================================
-# 7. DEFINE MODELS
+# 7. DEFINE SMOTE AND MODELS
 # ============================================================
 
 minority_count = y_train.value_counts().min()
 
 if minority_count < 2:
     raise ValueError(
-        "Not enough minority-class training records to apply SMOTE."
+        "Not enough minority-class training records for SMOTE."
     )
 
 smote = SMOTE(
@@ -209,8 +210,8 @@ smote = SMOTE(
 )
 
 logistic_pipeline = ImbPipeline(steps=[
-    ("preprocess", preprocessor),
-    ("smote", smote),
+    ("preprocess", clone(preprocessor)),
+    ("smote", clone(smote)),
     ("model", LogisticRegression(
         max_iter=2000,
         random_state=42
@@ -218,8 +219,8 @@ logistic_pipeline = ImbPipeline(steps=[
 ])
 
 random_forest_pipeline = ImbPipeline(steps=[
-    ("preprocess", preprocessor),
-    ("smote", smote),
+    ("preprocess", clone(preprocessor)),
+    ("smote", clone(smote)),
     ("model", RandomForestClassifier(
         n_estimators=300,
         max_depth=12,
@@ -255,14 +256,25 @@ rf_predictions = random_forest_pipeline.predict(X_test)
 
 
 # ============================================================
-# 10. SMOTE DISTRIBUTION
+# 10. SMOTE DISTRIBUTION VISUALIZATION
 # ============================================================
 
-X_train_processed = preprocessor.fit_transform(X_train)
+# Use separate copies so this visualization does not
+# modify either trained model's preprocessing pipeline.
 
-X_train_resampled, y_train_resampled = smote.fit_resample(
-    X_train_processed,
-    y_train
+visual_preprocessor = clone(preprocessor)
+
+X_train_processed = visual_preprocessor.fit_transform(
+    X_train
+)
+
+visual_smote = clone(smote)
+
+X_train_resampled, y_train_resampled = (
+    visual_smote.fit_resample(
+        X_train_processed,
+        y_train
+    )
 )
 
 plt.figure(figsize=(7, 5))
@@ -278,7 +290,8 @@ plt.ylabel("Number of Records")
 plt.tight_layout()
 
 plt.savefig(
-    os.path.join(VISUAL_DIR, "smote_distribution.png")
+    os.path.join(VISUAL_DIR, "smote_distribution.png"),
+    dpi=300
 )
 plt.close()
 
@@ -304,26 +317,31 @@ for model_name, prediction in predictions.items():
             y_test, prediction
         ),
         "Precision": precision_score(
-            y_test, prediction, pos_label=1, zero_division=0
+            y_test, prediction,
+            pos_label=1,
+            zero_division=0
         ),
         "Delinquent Recall": recall_score(
-            y_test, prediction, pos_label=1, zero_division=0
+            y_test, prediction,
+            pos_label=1,
+            zero_division=0
         ),
         "F1 Score": f1_score(
-            y_test, prediction, pos_label=1, zero_division=0
+            y_test, prediction,
+            pos_label=1,
+            zero_division=0
         )
     })
 
     print(f"\n===== {model_name} =====")
-    print(
-        classification_report(
-            y_test,
-            prediction,
-            labels=[0, 1],
-            target_names=["Non-delinquent", "Delinquent"],
-            zero_division=0
-        )
-    )
+
+    print(classification_report(
+        y_test,
+        prediction,
+        labels=[0, 1],
+        target_names=["Non-delinquent", "Delinquent"],
+        zero_division=0
+    ))
 
 results_df = pd.DataFrame(results)
 
@@ -352,18 +370,31 @@ plt.imshow(cm, interpolation="nearest")
 plt.title("Random Forest Confusion Matrix")
 plt.xlabel("Predicted Class")
 plt.ylabel("Actual Class")
-plt.xticks([0, 1], ["Non-delinquent", "Delinquent"])
-plt.yticks([0, 1], ["Non-delinquent", "Delinquent"])
+
+plt.xticks(
+    [0, 1],
+    ["Non-delinquent", "Delinquent"]
+)
+
+plt.yticks(
+    [0, 1],
+    ["Non-delinquent", "Delinquent"]
+)
 
 for i in range(2):
     for j in range(2):
-        plt.text(j, i, str(cm[i, j]), ha="center", va="center")
+        plt.text(
+            j, i, str(cm[i, j]),
+            ha="center",
+            va="center"
+        )
 
 plt.colorbar()
 plt.tight_layout()
 
 plt.savefig(
-    os.path.join(VISUAL_DIR, "confusion_matrix.png")
+    os.path.join(VISUAL_DIR, "confusion_matrix.png"),
+    dpi=300
 )
 plt.close()
 
@@ -410,13 +441,14 @@ plt.ylabel("Feature")
 plt.tight_layout()
 
 plt.savefig(
-    os.path.join(VISUAL_DIR, "feature_importance.png")
+    os.path.join(VISUAL_DIR, "feature_importance.png"),
+    dpi=300
 )
 plt.close()
 
 
 # ============================================================
-# 14. SAVE TRAINED MODELS
+# 14. SAVE TRAINED MODEL PIPELINES
 # ============================================================
 
 joblib.dump(
@@ -457,7 +489,7 @@ output.to_excel(
 print("\n===== ANALYSIS COMPLETED =====")
 print("Model comparison saved.")
 print("Predictions saved.")
-print("Trained models saved.")
+print("Trained model pipelines saved.")
 print("Visualizations saved.")
 
 print("\nOutput folder:", OUTPUT_DIR)
