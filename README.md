@@ -59,6 +59,20 @@ The project includes the following model evaluation and analysis outputs:
 
 These results provide insights into model behaviour and demonstrate how predictive analytics can support credit risk assessment.
 
+### Independent Python Model Performance
+
+The independent Python analysis produced the following results:
+
+| Model | Accuracy | Balanced Accuracy | Delinquent Recall |
+|---|---:|---:|---:|
+| Baseline Model | 84% | — | 0% |
+| Logistic Regression | 52% | 43.6% | 31.25% |
+| Random Forest | 83% | 49.4% | 0% |
+
+**Key Finding:** Although the baseline and Random Forest models achieved higher overall accuracy, they failed to identify delinquent borrowers in the test set. Logistic Regression identified some delinquent cases but showed limited overall performance.
+
+These results highlight the challenges of class imbalance and the importance of evaluating recall and balanced accuracy rather than relying on accuracy alone.
+
 ## Limitations & Future Improvements
 
 ### Limitations
