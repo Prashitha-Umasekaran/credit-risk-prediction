@@ -6,6 +6,19 @@ This project explores credit risk assessment by analysing borrower-related data 
 
 It demonstrates how data analytics and machine learning can support financial risk assessment through data preprocessing, exploratory analysis, class imbalance handling, model evaluation, and business-focused interpretation.
 
+## Project Snapshot
+
+| Area | Summary |
+|---|---|
+| Business problem | Identify borrower patterns associated with loan delinquency |
+| Dataset | 500 borrower records, including 80 delinquent cases |
+| Models explored | Logistic Regression and Random Forest |
+| Imbalance handling | SMOTE applied within the training pipelines |
+| Main finding | Logistic Regression identified some delinquent accounts; Random Forest did not identify any in the test set |
+| Business takeaway | Accuracy alone can hide poor detection of the minority delinquent class |
+
+**Key interpretation:** The baseline model and Random Forest both achieved 84% accuracy by predicting the majority class, but neither identified delinquent borrowers in the test set. Logistic Regression achieved lower overall accuracy (74%) but detected 25% of actual delinquent cases. This illustrates why credit-risk evaluation should consider delinquency recall and other class-sensitive metrics, not accuracy alone.
+
 ## Project Scope
 
 This portfolio project combines two related activities:
